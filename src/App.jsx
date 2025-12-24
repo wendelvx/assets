@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Button } from './components/ui/button' // Importação limpa graças ao index.js
+import { Button } from './components/ui/button' 
+import { Input } from './components/ui/input';
 import './App.css'
 
 function App() {
@@ -31,7 +32,6 @@ function App() {
           </div>
         </section>
 
-        {/* Seção de Tamanhos e Estados */}
         <section>
           <h2 className="text-lg font-semibold mb-4 text-neutral-800">Tamanhos e Estados</h2>
           <div className="flex flex-wrap items-center gap-4 p-6 bg-white border border-neutral-200 rounded-lg shadow-sm">
@@ -56,6 +56,36 @@ function App() {
             </p>
           </div>
         </section>
+
+        <section className="max-w-md mx-auto p-6 bg-white border border-neutral-200 rounded-lg shadow-sm">
+  <h2 className="text-lg font-semibold mb-6 text-neutral-800">Exemplo de Formulário</h2>
+  
+  <div className="space-y-4">
+    <Input 
+      label="Nome Completo" 
+      placeholder="Ex: Wendel Silva" 
+      id="nome"
+    />
+    
+    <Input 
+      label="E-mail" 
+      type="email" 
+      placeholder="seu@email.com" 
+      id="email"
+    />
+
+    <Input 
+      label="Senha" 
+      type="password" 
+      error="A senha deve ter pelo menos 8 caracteres" 
+      id="password"
+    />
+
+    <Button variant="primary" fullWidth className="mt-2">
+      Criar Conta
+    </Button>
+  </div>
+</section>
 
       </main>
     </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Button } from './components/ui/button' 
 import { Input } from './components/ui/input';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './components/ui/card';
 import './App.css'
 
 function App() {
@@ -86,6 +87,29 @@ function App() {
     </Button>
   </div>
 </section>
+
+<div className="w-full max-w-md">
+        <Card>
+          <CardHeader>
+            <CardTitle>Acesse sua conta</CardTitle>
+            <CardDescription>
+              Entre com seu e-mail e senha para gerenciar seus projetos.
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="space-y-4">
+            <Input label="E-mail" placeholder="exemplo@dominio.com" />
+            <Input label="Senha" type="password" placeholder="••••••••" />
+          </CardContent>
+
+          <CardFooter className="flex-col gap-3">
+            <Button variant="primary" fullWidth>Entrar</Button>
+            <Button variant="ghost" size="sm" className="text-neutral-500">
+              Esqueceu sua senha?
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
 
       </main>
     </div>

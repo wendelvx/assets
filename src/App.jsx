@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { Button } from './components/ui/button' 
 import { Input } from './components/ui/input';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './components/ui/card';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from './components/ui/modal';
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSave = () => {
     setLoading(true)
@@ -110,6 +112,38 @@ function App() {
           </CardFooter>
         </Card>
       </div>
+
+      <div className="p-10">
+      <Button variant="primary" onClick={() => setIsModalOpen(true)}>
+        Abrir Formulário
+      </Button>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <ModalHeader 
+          title="Novo Cadastro" 
+          onClose={() => setIsModalOpen(false)} 
+        />
+        
+        <ModalBody>
+          <div className="space-y-4">
+            <p className="text-sm text-neutral-500">
+              Preencha os dados abaixo para adicionar um novo membro ao sistema.
+            </p>
+            <Input label="Nome" placeholder="Digite o nome..." />
+            <Input label="Cargo" placeholder="Ex: Desenvolvedor" />
+          </div>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={() => alert('Salvo!')}>
+            Confirmar
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </div>
 
       </main>
     </div>

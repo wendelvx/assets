@@ -6,12 +6,15 @@ import { Input } from './components/ui/input'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './components/ui/card'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from './components/ui/modal'
 import { Sidebar, SidebarLogo, SidebarItem, SidebarFooter } from './components/ui/sidebar'
+import { Alert } from './components/ui/alert';
+import { Toast } from './components/ui/toast';
 
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [showToast, setShowToast] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('Dashboard')
 
@@ -135,6 +138,36 @@ function App() {
             <Button variant="primary">Salvar Membro</Button>
           </ModalFooter>
         </Modal>
+        <div className="space-y-6 p-8">
+      <section className="max-w-2xl mx-auto space-y-4">
+        <h2 className="text-sm font-bold uppercase text-neutral-400">Mensagens de Sistema</h2>
+        
+        <Alert variant="success" title="Sucesso!" onClose={() => alert('fechou')}>
+          Sua conta foi criada com sucesso. Bem-vindo ao Nexus UI!
+        </Alert>
+
+        <Alert variant="error" title="Erro Crítico">
+          Não foi possível conectar ao servidor. Tente novamente mais tarde.
+        </Alert>
+
+        <Alert variant="warning" title="Atenção">
+          Seu plano expira em 3 dias. Renove agora para não perder o acesso.
+        </Alert>
+      </section>
+
+      {/* Exemplo de Toast */}
+      <div className="flex justify-center">
+        <Button onClick={() => setShowToast(true)}>
+          Enviar Notificação (Toast)
+        </Button>
+      </div>
+
+      <Toast 
+        message="Dados salvos com sucesso!" 
+        isOpen={showToast} 
+        onClose={() => setShowToast(false)} 
+      />
+    </div>
 
       </main>
     </div>

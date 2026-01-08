@@ -11,6 +11,7 @@ import { Toast } from './components/ui/toast'
 import { Dropdown } from './components/ui/dropdown'
 import { Badge } from './components/ui/badge'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './components/ui/tabs'
+import { Table, THead, TBody, TR, TH, TD } from './components/ui/table'
 
 import './App.css'
 
@@ -28,6 +29,13 @@ function App() {
     { label: 'Visualizador', value: 'viewer' },
   ];
 
+  const teamData = [
+  { id: 1, name: 'Paulo Wendel', email: 'paulo@nexus.com', role: 'Admin', status: 'Ativo' },
+  { id: 2, name: 'Ana Silva', email: 'ana.s@nexus.com', role: 'Designer', status: 'Pendente' },
+  { id: 3, name: 'Lucas Rocha', email: 'lucas@nexus.com', role: 'Developer', status: 'Ativo' },
+  { id: 4, name: 'Carla Dias', email: 'carla@nexus.com', role: 'Manager', status: 'Inativo' },
+];
+
   const handleSave = () => {
     setLoading(true)
     setTimeout(() => {
@@ -38,7 +46,6 @@ function App() {
 
   return (
     <div className="flex min-h-screen bg-neutral-50 font-['Plus_Jakarta_Sans']">
-      {/* SIDEBAR FIXA */}
       <Sidebar>
         <SidebarLogo icon={Code2} label="Nexus UI" />
 
@@ -178,6 +185,52 @@ function App() {
                     </CardFooter>
                   </Card>
                 </section>
+
+                <section className="space-y-4">
+  <div className="flex items-center justify-between">
+    <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-400">Membros da Equipe</h2>
+    <Badge variant="secondary">{teamData.length} Usuários</Badge>
+  </div>
+  
+  <Table>
+    <THead>
+      <TR>
+        <TH>Membro</TH>
+        <TH>Cargo</TH>
+        <TH>Status</TH>
+        <TH className="text-right">Ações</TH>
+      </TR>
+    </THead>
+    <TBody>
+      {teamData.map((user) => (
+        <TR key={user.id}>
+          <TD>
+            <div className="flex flex-col">
+              <span className="font-medium text-neutral-900">{user.name}</span>
+              <span className="text-xs text-neutral-500">{user.email}</span>
+            </div>
+          </TD>
+          <TD>
+            <span className="text-neutral-600">{user.role}</span>
+          </TD>
+          <TD>
+            <Badge 
+              variant={user.status === 'Ativo' ? 'success' : user.status === 'Pendente' ? 'warning' : 'error'}
+              size="sm"
+            >
+              {user.status}
+            </Badge>
+          </TD>
+          <TD className="text-right">
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" size="sm">Editar</Button>
+            </div>
+          </TD>
+        </TR>
+      ))}
+    </TBody>
+  </Table>
+</section>
               </div>
             </TabsContent>
 

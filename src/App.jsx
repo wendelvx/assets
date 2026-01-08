@@ -1,5 +1,15 @@
 import { useState } from 'react'
-import { LayoutDashboard, Package, Users, Settings, LogOut, Code2, Bell, Smartphone } from 'lucide-react'
+import { 
+  LayoutDashboard, 
+  Package, 
+  Users, 
+  Settings, 
+  LogOut, 
+  Code2, 
+  DollarSign, 
+  Zap, 
+  BarChart3 
+} from 'lucide-react'
 
 import { Button } from './components/ui/button'
 import { Input } from './components/ui/input'
@@ -12,6 +22,7 @@ import { Dropdown } from './components/ui/dropdown'
 import { Badge } from './components/ui/badge'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './components/ui/tabs'
 import { Table, THead, TBody, TR, TH, TD } from './components/ui/table'
+import { StatCard } from './components/ui/statcard'
 
 import './App.css'
 
@@ -30,11 +41,11 @@ function App() {
   ];
 
   const teamData = [
-  { id: 1, name: 'Paulo Wendel', email: 'paulo@nexus.com', role: 'Admin', status: 'Ativo' },
-  { id: 2, name: 'Ana Silva', email: 'ana.s@nexus.com', role: 'Designer', status: 'Pendente' },
-  { id: 3, name: 'Lucas Rocha', email: 'lucas@nexus.com', role: 'Developer', status: 'Ativo' },
-  { id: 4, name: 'Carla Dias', email: 'carla@nexus.com', role: 'Manager', status: 'Inativo' },
-];
+    { id: 1, name: 'Paulo Wendel', email: 'paulo@nexus.com', role: 'Admin', status: 'Ativo' },
+    { id: 2, name: 'Ana Silva', email: 'ana.s@nexus.com', role: 'Designer', status: 'Pendente' },
+    { id: 3, name: 'Lucas Rocha', email: 'lucas@nexus.com', role: 'Developer', status: 'Ativo' },
+    { id: 4, name: 'Carla Dias', email: 'carla@nexus.com', role: 'Manager', status: 'Inativo' },
+  ];
 
   const handleSave = () => {
     setLoading(true)
@@ -82,8 +93,7 @@ function App() {
       </Sidebar>
 
       <main className="flex-1 ml-64 p-8 transition-all">
-        
-        <header className="max-w-5xl mx-auto mb-10">
+        <header className="max-w-6xl mx-auto mb-10">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-neutral-900 tracking-tight">
@@ -99,11 +109,43 @@ function App() {
           </div>
         </header>
 
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StatCard 
+              title="Receita Total" 
+              value="R$ 45.231,89" 
+              trend="up" 
+              trendValue="12.5" 
+              icon={DollarSign} 
+            />
+            <StatCard 
+              title="Novos Clientes" 
+              value="+2,350" 
+              trend="up" 
+              trendValue="8.2" 
+              icon={Users} 
+            />
+            <StatCard 
+              title="Taxa de Conversão" 
+              value="4.8%" 
+              trend="down" 
+              trendValue="3.1" 
+              icon={Zap} 
+            />
+            <StatCard 
+              title="Projetos Ativos" 
+              value="12" 
+              trend="up" 
+              trendValue="0" 
+              icon={BarChart3}
+              description="Meta: 15 até o fim do semestre"
+            />
+          </section>
+
           <Tabs defaultValue="forms">
             <TabsList>
               <TabsTrigger value="forms">Formulários & Inputs</TabsTrigger>
-              <TabsTrigger value="feedback">Feedback & Status</TabsTrigger>
+              <TabsTrigger value="feedback">Feedback & Equipe</TabsTrigger>
               <TabsTrigger value="visual">Botões & Estilos</TabsTrigger>
             </TabsList>
 
@@ -154,106 +196,85 @@ function App() {
             </TabsContent>
 
             <TabsContent value="feedback" className="space-y-10">
+              <section className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-400">Gestão de Membros</h2>
+                  <Badge variant="secondary">{teamData.length} Usuários</Badge>
+                </div>
+                <Table>
+                  <THead>
+                    <TR>
+                      <TH>Membro</TH>
+                      <TH>Cargo</TH>
+                      <TH>Status</TH>
+                      <TH className="text-right">Ações</TH>
+                    </TR>
+                  </THead>
+                  <TBody>
+                    {teamData.map((user) => (
+                      <TR key={user.id}>
+                        <TD>
+                          <div className="flex flex-col">
+                            <span className="font-medium text-neutral-900">{user.name}</span>
+                            <span className="text-xs text-neutral-500">{user.email}</span>
+                          </div>
+                        </TD>
+                        <TD>
+                          <span className="text-neutral-600 text-sm">{user.role}</span>
+                        </TD>
+                        <TD>
+                          <Badge 
+                            variant={user.status === 'Ativo' ? 'success' : user.status === 'Pendente' ? 'warning' : 'error'}
+                            size="sm"
+                          >
+                            {user.status}
+                          </Badge>
+                        </TD>
+                        <TD className="text-right">
+                          <Button variant="outline" size="sm">Editar</Button>
+                        </TD>
+                      </TR>
+                    ))}
+                  </TBody>
+                </Table>
+              </section>
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <section className="space-y-4">
-                  <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-400">Alertas Globais</h2>
-                  <Alert variant="success" title="Sistema Online">
-                    Todos os serviços estão operando normalmente.
-                  </Alert>
-                  <Alert variant="warning" title="Backup Necessário">
-                    Sua última sincronização foi há 24 horas.
-                  </Alert>
-                  <Alert variant="error" title="Falha na API">
-                    Não foi possível carregar os dados do perfil.
-                  </Alert>
+                  <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-400">Alertas de Sistema</h2>
+                  <Alert variant="success" title="Nexus UI">Componentes de feedback integrados.</Alert>
+                  <Alert variant="error" title="Atenção">Verifique as permissões de acesso.</Alert>
                 </section>
-
-                <section className="space-y-6">
-                  <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-400">Sistema de Badges</h2>
-                  <Card>
-                    <CardContent className="flex flex-wrap gap-3 pt-6">
-                      <Badge variant="success">Pago</Badge>
-                      <Badge variant="error">Atrasado</Badge>
-                      <Badge variant="warning">Processando</Badge>
-                      <Badge variant="primary" pill>Novo</Badge>
-                      <Badge variant="secondary" pill size="sm">Beta</Badge>
-                    </CardContent>
-                    <CardFooter className="justify-center border-t border-neutral-100 pt-4">
-                       <Button variant="outline" size="sm" onClick={() => setShowToast(true)}>
-                         Disparar Toast
-                       </Button>
-                    </CardFooter>
+                <section className="space-y-4">
+                  <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-400">Notificações</h2>
+                  <Card className="flex items-center justify-center p-12">
+                    <Button variant="secondary" onClick={() => setShowToast(true)}>
+                      Testar Notificação Toast
+                    </Button>
                   </Card>
                 </section>
-
-                <section className="space-y-4">
-  <div className="flex items-center justify-between">
-    <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-400">Membros da Equipe</h2>
-    <Badge variant="secondary">{teamData.length} Usuários</Badge>
-  </div>
-  
-  <Table>
-    <THead>
-      <TR>
-        <TH>Membro</TH>
-        <TH>Cargo</TH>
-        <TH>Status</TH>
-        <TH className="text-right">Ações</TH>
-      </TR>
-    </THead>
-    <TBody>
-      {teamData.map((user) => (
-        <TR key={user.id}>
-          <TD>
-            <div className="flex flex-col">
-              <span className="font-medium text-neutral-900">{user.name}</span>
-              <span className="text-xs text-neutral-500">{user.email}</span>
-            </div>
-          </TD>
-          <TD>
-            <span className="text-neutral-600">{user.role}</span>
-          </TD>
-          <TD>
-            <Badge 
-              variant={user.status === 'Ativo' ? 'success' : user.status === 'Pendente' ? 'warning' : 'error'}
-              size="sm"
-            >
-              {user.status}
-            </Badge>
-          </TD>
-          <TD className="text-right">
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" size="sm">Editar</Button>
-            </div>
-          </TD>
-        </TR>
-      ))}
-    </TBody>
-  </Table>
-</section>
               </div>
             </TabsContent>
 
             <TabsContent value="visual" className="space-y-8">
               <section className="space-y-4">
-                <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-400">Variantes de Ação</h2>
+                <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-400">Variantes de Botões</h2>
                 <Card>
                   <CardContent className="flex flex-wrap gap-4 pt-6">
-                    <Button variant="primary">Primary Action</Button>
+                    <Button variant="primary">Primary</Button>
                     <Button variant="secondary">Secondary</Button>
                     <Button variant="outline">Outline</Button>
-                    <Button variant="danger">Danger Zone</Button>
+                    <Button variant="danger">Danger</Button>
                   </CardContent>
                 </Card>
               </section>
-
               <section className="space-y-4">
-                <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-400">Escalabilidade</h2>
+                <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-400">Escala Visual</h2>
                 <Card>
                   <CardContent className="flex items-center gap-4 pt-6">
-                    <Button size="sm">Pequeno</Button>
-                    <Button size="md" onClick={() => setCount(c => c + 1)}>Contador: {count}</Button>
-                    <Button size="lg">Grande</Button>
+                    <Button size="sm">Small</Button>
+                    <Button size="md" onClick={() => setCount(c => c + 1)}>Count: {count}</Button>
+                    <Button size="lg">Large Action</Button>
                   </CardContent>
                 </Card>
               </section>
@@ -283,7 +304,6 @@ function App() {
           isOpen={showToast}
           onClose={() => setShowToast(false)}
         />
-
       </main>
     </div>
   )

@@ -8,6 +8,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from './components/ui/moda
 import { Sidebar, SidebarLogo, SidebarItem, SidebarFooter } from './components/ui/sidebar'
 import { Alert } from './components/ui/alert';
 import { Toast } from './components/ui/toast';
+import { Dropdown } from './components/ui/dropdown'
 
 import './App.css'
 
@@ -16,7 +17,14 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [showToast, setShowToast] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedRole, setSelectedRole] = useState(null)
   const [activeTab, setActiveTab] = useState('Dashboard')
+
+  const roleOptions = [
+    { label: 'Administrador', value: 'admin' },
+    { label: 'Editor', value: 'editor' },
+    { label: 'Visualizador', value: 'viewer' },
+  ];
 
   const handleSave = () => {
     setLoading(true)
@@ -107,21 +115,29 @@ function App() {
 
           <div className="space-y-8">
             <section>
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-neutral-400 mb-4">Formulário de Acesso</h2>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Login</CardTitle>
-                  <CardDescription>Teste de Inputs e Card combinados.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <Input label="E-mail" placeholder="seu@email.com" />
-                  <Input label="Senha" type="password" error="A senha é obrigatória" />
-                </CardContent>
-                <CardFooter>
-                  <Button variant="primary" fullWidth>Entrar na plataforma</Button>
-                </CardFooter>
-              </Card>
-            </section>
+  <h2 className="text-sm font-semibold uppercase tracking-wider text-neutral-400 mb-4">Formulário de Acesso</h2>
+  <Card>
+    <CardHeader>
+      <CardTitle>Login</CardTitle>
+      <CardDescription>Teste de Inputs e Dropdowns combinados.</CardDescription>
+    </CardHeader>
+    <CardContent className="space-y-4">
+      <Input label="E-mail" placeholder="seu@email.com" />
+      
+      <Dropdown 
+        label="Nível de Acesso" 
+        options={roleOptions} 
+        onSelect={(opt) => setSelectedRole(opt)}
+        placeholder="Selecione seu cargo"
+      />
+      
+      <Input label="Senha" type="password" error="A senha é obrigatória" />
+    </CardContent>
+    <CardFooter>
+      <Button variant="primary" fullWidth>Entrar na plataforma</Button>
+    </CardFooter>
+  </Card>
+</section>
           </div>
         </div>
 
